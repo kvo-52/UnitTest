@@ -1,6 +1,34 @@
 package seminars.first.Calculator;
 
+import java.util.Scanner;
 public class Calculator {
+    private static final Scanner scanner;
+
+    public Calculator() {
+    }
+
+    public static void main(String[] args) {
+    }
+
+
+    public static int getOperand() {
+        System.out.println("Enter operand: ");
+        int operand;
+        if (scanner.hasNextInt()) {
+            operand = scanner.nextInt();
+        } else {
+            System.out.println("You have mistaken, try again");
+            if (!scanner.hasNext()) {
+                throw new IllegalStateException("Input error");
+            }
+
+            scanner.next();
+            operand = getOperand();
+        }
+
+        return operand;
+    }
+
     public static int calculation(int firstOperand, int secondOperand, char operator) {
         int result;
 
@@ -40,11 +68,25 @@ public class Calculator {
             return Math.sqrt(num);
     }
 
-    // Нужно написать в калькуляторе метод вычисления суммы покупки со скидкой и проверить его, используя AssertJ
-    // Примерная сигнатура и тело метода:
-    public static double calculatingDiscount(double purchaseAmount, int discountAmount) {
-        // purchaseAmount - сумма покупки
-        // discountAmount - размер скидки
-        return 0; // Метод должен возвращать сумму покупки со скидкой
+    /* *Задание 1. * В классе Calculator создайте метод calculateDiscount, который принимает сумму покупки и процент скидки
+ и возвращает сумму с учетом скидки. Ваша задача - проверить этот метод с использованием библиотеки AssertJ.
+ Если метод calculateDiscount получает недопустимые аргументы, он должен выбрасывать исключение ArithmeticException.
+ Не забудьте написать тесты для проверки этого поведения.
+ */
+    public static double calculateDiscount(double purchase, int discount) {
+
+        if (purchase > 0) {
+            if (discount >= 0 && discount <= 100) {
+                return purchase - purchase * (double)discount/ 100.0;
+            } else {
+                throw new ArithmeticException("Неправильный размер скидки");
+            }
+        } else {
+            throw new ArithmeticException("Неправильная сумма покупки");
+        }
+    }
+
+    static {
+        scanner = new Scanner(System.in);
     }
 }
